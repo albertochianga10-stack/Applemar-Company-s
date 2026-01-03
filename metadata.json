@@ -1,0 +1,7 @@
+{
+  "name": "Applemar Company - Sistema de Gestão",
+  "description": "Sistema completo de gestão empresarial (ERP) para a Applemar Company em Angola, com POS, Inventário, CRM e insights de IA.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
