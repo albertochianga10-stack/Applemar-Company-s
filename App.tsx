@@ -16,33 +16,30 @@ import {
   MapPin,
   ChevronDown
 } from 'lucide-react';
-import { AppView, Product, Transaction, Customer } from './types';
-import { storageService } from './services/storageService';
+import { AppView, Product, Transaction, Customer } from './types.ts';
+import { storageService } from './services/storageService.ts';
 
 // View Components
-import Dashboard from './components/Dashboard';
-import FinancialFlow from './components/FinancialFlow';
-import Expenses from './components/Expenses';
-import Inventory from './components/Inventory';
-import Customers from './components/Customers';
-import Reports from './components/Reports';
-import AIInsights from './components/AIInsights';
+import Dashboard from './components/Dashboard.tsx';
+import FinancialFlow from './components/FinancialFlow.tsx';
+import Expenses from './components/Expenses.tsx';
+import Inventory from './components/Inventory.tsx';
+import Customers from './components/Customers.tsx';
+import Reports from './components/Reports.tsx';
+import AIInsights from './components/AIInsights.tsx';
 
 const LoginScreen: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
   return (
     <div className="relative min-h-screen w-full bg-[#0a0a0a] flex items-center justify-center overflow-hidden font-sans">
-      {/* Luzes ambiente magenta/rosa baseadas na imagem */}
       <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-magenta-600/20 rounded-full blur-[120px] animate-pulse" style={{ backgroundColor: 'rgba(255, 0, 255, 0.15)' }}></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-pink-500/10 rounded-full blur-[100px]" style={{ backgroundColor: 'rgba(212, 163, 115, 0.1)' }}></div>
       
       <div className="relative z-10 w-full max-w-[400px] px-8 py-12 flex flex-col items-center">
-        {/* Logo Applemar */}
         <h1 className="text-4xl font-light tracking-[0.4em] text-white mb-20 italic animate-fade-in">
           APPLEMAR
         </h1>
 
         <div className="w-full space-y-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          {/* Username */}
           <div className="relative border-b border-white/20 pb-2 group focus-within:border-[#d4a373] transition-colors">
             <User className="absolute left-0 bottom-3 text-white/40 group-focus-within:text-[#d4a373]" size={18} />
             <input 
@@ -53,7 +50,6 @@ const LoginScreen: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
             />
           </div>
 
-          {/* Password */}
           <div className="relative border-b border-white/20 pb-2 group focus-within:border-[#d4a373] transition-colors">
             <div className="absolute left-0 bottom-3 w-5 h-5 flex items-center justify-center bg-white/10 rounded-full">
               <Lock className="text-white/60" size={10} />
@@ -66,7 +62,6 @@ const LoginScreen: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
             />
           </div>
 
-          {/* Location Selector */}
           <div className="relative border-b border-white/20 pb-2 group cursor-pointer hover:border-white/40 transition-colors">
             <MapPin className="absolute left-0 bottom-3 text-white/40" size={18} />
             <div className="w-full pl-8 pr-4 py-2 flex justify-between items-center">
@@ -75,7 +70,6 @@ const LoginScreen: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
             </div>
           </div>
 
-          {/* Login Button */}
           <button 
             onClick={onLogin}
             className="w-full bg-white py-4 mt-4 rounded-xl text-black text-xs font-black tracking-[0.2em] uppercase shadow-2xl hover:bg-slate-200 active:scale-95 transition-all"
@@ -83,7 +77,6 @@ const LoginScreen: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
             LOGIN
           </button>
 
-          {/* Footer Links */}
           <div className="flex flex-col items-center space-y-4 pt-4">
             <button className="text-[10px] text-white/30 font-bold tracking-widest hover:text-white transition-colors">
               Forgot my password?
@@ -96,7 +89,6 @@ const LoginScreen: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
         </div>
       </div>
       
-      {/* Copyright sutil no rodapé */}
       <div className="absolute bottom-6 text-[8px] text-white/10 font-bold tracking-widest uppercase">
         © 2025 Applemar Company Lda • Angola Business Management
       </div>

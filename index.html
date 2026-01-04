@@ -10,49 +10,68 @@
     <title>Applemar ERP | Gestão Global Angola</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <script>
+      // Polyfill para evitar erro de "process is not defined" no Netlify
+      window.process = { env: { NODE_ENV: 'production', API_KEY: '' } };
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #0a0a0a; color: white; }
         .applemar-gold { color: #d4a373; }
         .bg-applemar-gold { background-color: #d4a373; }
         
-        /* Estilos para PDF / Impressão */
         @media print {
             .print\:hidden { display: none !important; }
             body { background: white; color: black; padding: 0; margin: 0; }
             .bg-slate-50, .bg-gray-50, .bg-slate-900 { background: white !important; color: black !important; }
-            .shadow-sm, .shadow-md, .shadow-xl, .shadow-2xl { box-shadow: none !important; }
-            table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid #eee; padding: 8px; font-size: 10pt; }
-            .rounded-[2.5rem], .rounded-3xl, .rounded-2xl { border-radius: 4px !important; }
             h2, h3 { color: black !important; }
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #d4a373; border-radius: 10px; }
 
-        /* Smooth Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid #d4a373;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 <script type="importmap">
 {
   "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0",
+    "recharts": "https://esm.sh/recharts@2.13.3",
+    "@google/genai": "https://esm.sh/@google/genai@0.2.1",
     "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "recharts": "https://esm.sh/recharts@^3.6.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
   }
 }
 </script>
 </head>
-<body class="bg-[#0a0a0a] text-slate-900">
-    <div id="root"></div>
+<body>
+    <div id="root">
+        <div style="height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;">
+            <div class="loader"></div>
+            <p style="color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase;">
+                Applemar Company • Inicializando Sistema
+            </p>
+        </div>
+    </div>
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>
