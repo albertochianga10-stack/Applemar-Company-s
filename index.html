@@ -1,10 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="pt-AO">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Applemar ERP - Angola</title>
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="description" content="Sistema de Gestão Financeira Global da Applemar Company Lda - Angola.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍎</text></svg>">
+    <title>Applemar ERP | Gestão Global Angola</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
@@ -16,8 +19,8 @@
         @media print {
             .print\:hidden { display: none !important; }
             body { background: white; color: black; padding: 0; margin: 0; }
-            .bg-slate-50, .bg-gray-50 { background: white !important; }
-            .shadow-sm, .shadow-md, .shadow-xl, .shadow-2xl { shadow: none !important; }
+            .bg-slate-50, .bg-gray-50, .bg-slate-900 { background: white !important; color: black !important; }
+            .shadow-sm, .shadow-md, .shadow-xl, .shadow-2xl { box-shadow: none !important; }
             table { width: 100%; border-collapse: collapse; }
             th, td { border: 1px solid #eee; padding: 8px; font-size: 10pt; }
             .rounded-[2.5rem], .rounded-3xl, .rounded-2xl { border-radius: 4px !important; }
@@ -28,6 +31,13 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #d4a373; border-radius: 10px; }
+
+        /* Smooth Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
     </style>
 <script type="importmap">
 {
@@ -42,7 +52,7 @@
 }
 </script>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-[#0a0a0a] text-slate-900">
     <div id="root"></div>
 </body>
 </html>

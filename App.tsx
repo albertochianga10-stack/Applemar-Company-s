@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, 
   Wallet, 
-  Receipt,
   Package, 
   Users, 
   FilePieChart, 
@@ -12,10 +10,13 @@ import {
   X,
   LogOut,
   Bell,
-  ArrowUpRight,
-  ArrowDownLeft
+  ArrowDownLeft,
+  User,
+  Lock,
+  MapPin,
+  ChevronDown
 } from 'lucide-react';
-import { AppView, Product, Transaction, Customer, Sale } from './types';
+import { AppView, Product, Transaction, Customer } from './types';
 import { storageService } from './services/storageService';
 
 // View Components
@@ -27,7 +28,84 @@ import Customers from './components/Customers';
 import Reports from './components/Reports';
 import AIInsights from './components/AIInsights';
 
+const LoginScreen: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
+  return (
+    <div className="relative min-h-screen w-full bg-[#0a0a0a] flex items-center justify-center overflow-hidden font-sans">
+      {/* Luzes ambiente magenta/rosa baseadas na imagem */}
+      <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-magenta-600/20 rounded-full blur-[120px] animate-pulse" style={{ backgroundColor: 'rgba(255, 0, 255, 0.15)' }}></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-pink-500/10 rounded-full blur-[100px]" style={{ backgroundColor: 'rgba(212, 163, 115, 0.1)' }}></div>
+      
+      <div className="relative z-10 w-full max-w-[400px] px-8 py-12 flex flex-col items-center">
+        {/* Logo Applemar */}
+        <h1 className="text-4xl font-light tracking-[0.4em] text-white mb-20 italic animate-fade-in">
+          APPLEMAR
+        </h1>
+
+        <div className="w-full space-y-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          {/* Username */}
+          <div className="relative border-b border-white/20 pb-2 group focus-within:border-[#d4a373] transition-colors">
+            <User className="absolute left-0 bottom-3 text-white/40 group-focus-within:text-[#d4a373]" size={18} />
+            <input 
+              type="text" 
+              placeholder="USERNAME" 
+              autoComplete="username"
+              className="w-full bg-transparent pl-8 pr-4 py-2 text-white text-xs font-bold tracking-widest outline-none placeholder:text-white/30 uppercase"
+            />
+          </div>
+
+          {/* Password */}
+          <div className="relative border-b border-white/20 pb-2 group focus-within:border-[#d4a373] transition-colors">
+            <div className="absolute left-0 bottom-3 w-5 h-5 flex items-center justify-center bg-white/10 rounded-full">
+              <Lock className="text-white/60" size={10} />
+            </div>
+            <input 
+              type="password" 
+              placeholder="•••••" 
+              autoComplete="current-password"
+              className="w-full bg-transparent pl-8 pr-4 py-2 text-white text-lg tracking-[0.3em] outline-none placeholder:text-white/30"
+            />
+          </div>
+
+          {/* Location Selector */}
+          <div className="relative border-b border-white/20 pb-2 group cursor-pointer hover:border-white/40 transition-colors">
+            <MapPin className="absolute left-0 bottom-3 text-white/40" size={18} />
+            <div className="w-full pl-8 pr-4 py-2 flex justify-between items-center">
+              <span className="text-white/40 text-[10px] font-bold tracking-widest uppercase">Select Location</span>
+              <ChevronDown className="text-white/40" size={14} />
+            </div>
+          </div>
+
+          {/* Login Button */}
+          <button 
+            onClick={onLogin}
+            className="w-full bg-white py-4 mt-4 rounded-xl text-black text-xs font-black tracking-[0.2em] uppercase shadow-2xl hover:bg-slate-200 active:scale-95 transition-all"
+          >
+            LOGIN
+          </button>
+
+          {/* Footer Links */}
+          <div className="flex flex-col items-center space-y-4 pt-4">
+            <button className="text-[10px] text-white/30 font-bold tracking-widest hover:text-white transition-colors">
+              Forgot my password?
+            </button>
+            <div className="text-[10px] font-bold tracking-widest">
+              <span className="text-white/30">NOT A MEMBER? </span>
+              <button className="text-white hover:text-[#d4a373] transition-colors">REGISTER</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Copyright sutil no rodapé */}
+      <div className="absolute bottom-6 text-[8px] text-white/10 font-bold tracking-widest uppercase">
+        © 2025 Applemar Company Lda • Angola Business Management
+      </div>
+    </div>
+  );
+};
+
 const App: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentView, setCurrentView] = useState<AppView>(AppView.DASHBOARD);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
@@ -43,6 +121,10 @@ const App: React.FC = () => {
   useEffect(() => storageService.saveProducts(products), [products]);
   useEffect(() => storageService.saveTransactions(transactions), [transactions]);
   useEffect(() => storageService.saveCustomers(customers), [customers]);
+
+  if (!isLoggedIn) {
+    return <LoginScreen onLogin={() => setIsLoggedIn(true)} />;
+  }
 
   const navItems = [
     { id: AppView.DASHBOARD, label: 'Painel Financeiro', icon: LayoutDashboard },
@@ -76,12 +158,12 @@ const App: React.FC = () => {
       <aside className={`
         fixed inset-y-0 left-0 w-72 bg-[#0a0a0a] text-white z-30 transform transition-transform duration-300 ease-in-out
         lg:relative lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        border-r border-white/5
+        border-r border-white/5 print:hidden
       `}>
         <div className="p-8 flex flex-col h-full">
           <div className="mb-12 flex items-center justify-between">
-            <h1 className="text-2xl font-black tracking-tighter text-white uppercase italic">
-              APPLE<span className="text-[#d4a373]">MAR</span>
+            <h1 className="text-2xl font-light tracking-[0.3em] text-white uppercase italic">
+              APPLE<span className="text-[#d4a373] font-bold">MAR</span>
             </h1>
             <button className="lg:hidden text-slate-400 hover:text-white" onClick={() => setSidebarOpen(false)}>
               <X size={24} />
@@ -107,25 +189,25 @@ const App: React.FC = () => {
 
           <div className="mt-auto pt-6 border-t border-white/10">
             <button 
-              onClick={() => storageService.clearAll()}
+              onClick={() => setIsLoggedIn(false)}
               className="w-full flex items-center space-x-3 px-5 py-4 text-rose-400 hover:bg-rose-500/10 rounded-2xl transition-all"
             >
               <LogOut size={20} />
-              <span className="text-sm font-semibold">Sair / Reset</span>
+              <span className="text-sm font-semibold">Sair do Sistema</span>
             </button>
           </div>
         </div>
       </aside>
 
       <main className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 flex items-center justify-between z-10">
+        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 flex items-center justify-between z-10 print:hidden">
           <div className="flex items-center space-x-4">
             <button className="lg:hidden p-2.5 bg-slate-100 rounded-xl text-slate-600" onClick={() => setSidebarOpen(true)}>
               <Menu size={24} />
             </button>
             <div className="hidden sm:block">
-              <h2 className="text-slate-400 text-xs font-bold uppercase tracking-widest">Empresa Ativa</h2>
-              <p className="text-slate-900 font-extrabold text-sm">APPLEMAR COMPANY LDA</p>
+              <h2 className="text-slate-400 text-xs font-bold uppercase tracking-widest">Unidade Angola</h2>
+              <p className="text-slate-900 font-extrabold text-sm uppercase italic tracking-tighter">Applemar Management Console</p>
             </div>
           </div>
 
@@ -147,7 +229,7 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-8 lg:p-12 space-y-10">
+        <div className="flex-1 overflow-y-auto p-8 lg:p-12 space-y-10 bg-slate-50 print:bg-white print:p-0">
           {renderView()}
         </div>
       </main>

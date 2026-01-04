@@ -64,7 +64,8 @@ const SalesHistory: React.FC<Props> = ({ sales, setSales }) => {
                   <td className="px-6 py-4 text-xs">
                     <span className="px-2 py-1 bg-gray-100 rounded font-bold">{sale.paymentMethod}</span>
                   </td>
-                  <td className="px-6 py-4 font-bold text-gray-800">{formatKz(sale.total)}</td>
+                  {/* Fix: Property 'total' does not exist on type 'Sale'. Use 'amount'. */}
+                  <td className="px-6 py-4 font-bold text-gray-800">{formatKz(sale.amount)}</td>
                   <td className="px-6 py-4 text-right space-x-2">
                     <button className="p-2 text-gray-400 hover:text-blue-500"><ExternalLink size={18}/></button>
                     <button onClick={() => deleteSale(sale.id)} className="p-2 text-gray-400 hover:text-red-500"><Trash2 size={18}/></button>
@@ -87,16 +88,19 @@ const SalesHistory: React.FC<Props> = ({ sales, setSales }) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-black text-white p-6 rounded-3xl">
           <p className="text-gray-400 text-sm">Total Bruto</p>
-          <p className="text-2xl font-bold">{formatKz(sales.reduce((a, b) => a + b.total, 0))}</p>
+          {/* Fix: Property 'total' does not exist on type 'Sale'. Use 'amount'. */}
+          <p className="text-2xl font-bold">{formatKz(sales.reduce((a, b) => a + b.amount, 0))}</p>
         </div>
         <div className="bg-white border p-6 rounded-3xl">
           <p className="text-gray-400 text-sm">IVA Retido (14%)</p>
-          <p className="text-2xl font-bold text-[#d4a373]">{formatKz(sales.reduce((a, b) => a + b.tax, 0))}</p>
+          {/* Fix: Property 'tax' does not exist on type 'Sale'. Use 'taxAmount'. */}
+          <p className="text-2xl font-bold text-[#d4a373]">{formatKz(sales.reduce((a, b) => a + (b.taxAmount || 0), 0))}</p>
         </div>
         <div className="bg-white border p-6 rounded-3xl">
           <p className="text-gray-400 text-sm">Tickets Médio</p>
           <p className="text-2xl font-bold text-gray-800">
-            {sales.length > 0 ? formatKz(sales.reduce((a, b) => a + b.total, 0) / sales.length) : 'Kz 0,00'}
+            {/* Fix: Property 'total' does not exist on type 'Sale'. Use 'amount'. */}
+            {sales.length > 0 ? formatKz(sales.reduce((a, b) => a + b.amount, 0) / sales.length) : 'Kz 0,00'}
           </p>
         </div>
       </div>
